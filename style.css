@@ -207,3 +207,33 @@ button {
     color: inherit;
     text-decoration: none;
 }
+
+.nameErr {
+    color: red;
+    font-size: 15px;
+    margin-top: 0;
+    visibility: hidden;
+}
+
+.typeErr {
+    color: red;
+    font-size: 15px;
+    margin-top: 0;
+    visibility: hidden;
+}
+
+.patientsErr {
+    color: red;
+    font-size: 15px;
+    margin-top: 0;
+    visibility: hidden;
+    text-decoration: none;
+}
+
+.beDisplayed {
+    color: red;
+    font-size: 15px;
+    margin-top: 0;
+    visibility: visible;
+    text-decoration: none;
+}

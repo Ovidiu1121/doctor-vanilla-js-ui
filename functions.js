@@ -35,9 +35,11 @@ export function createHome() {
     });
 
 
-    goToAddDoctorPage();
+    let button = document.querySelector(".button");
 
-
+    button.addEventListener("click", (eve) => {
+        CreateAddDoctorPage();
+    });
 
 }
 
@@ -50,17 +52,20 @@ export function CreateAddDoctorPage() {
     
       <h1>New Doctor</h1>
     <form>
-        <p>
+        <p class="name-container">
             <label for="name">Name</label>
             <input name="name" type="text" id="name">
+            <a class="nameErr">Name required!</a>
         </p>
-        <p>
+        <p class="type-container">
             <label for="typeDoc">Type</label>
             <input name="typeDoc" type="text" id="typeDoc">
+            <a class="typeErr">Type required!</a>
         </p>
-        <p>
+        <p class="patients-container">
             <label for="patients">Patients</label>
-            <input name="patients" type="text" id="patients">
+            <input name="patients" type="text" id="patients" placeholder="Ex:1,2,3...">
+            <a class="patientsErr">Patients required!</a>
         </p>
         <div class="createDoctor">
          <a href="#">Create New Doctor</a>
@@ -71,13 +76,13 @@ export function CreateAddDoctorPage() {
     </form>
 
     `
+
     let button = document.querySelector(".cancel");
+    let test = document.querySelector(".createDoctor");
 
     button.addEventListener("click", (eve) => {
         createHome();
     })
-
-    let test = document.querySelector(".createDoctor");
 
     test.addEventListener("click", (eve) => {
         createDoctor();
@@ -134,24 +139,70 @@ function attachDoctors(doctors) {
 
 }
 
-function goToAddDoctorPage() {
-
-    let button = document.querySelector(".button");
-
-    button.addEventListener("click", (eve) => {
-        CreateAddDoctorPage();
-    })
-
-
-}
-
 function createDoctor() {
+
+    const isNumber = (str) => {
+        return /^[+-]?\d+(\.\d+)?$/.test(str);
+    };
 
     let name = document.getElementById("name").value;
     let type = document.getElementById("typeDoc").value;
     let patients = document.getElementById("patients").value;
 
-    if (name && type && patients) {
+    let nameError = document.querySelector(".nameErr");
+    let typeError = document.querySelector(".typeErr");
+    let patientsError = document.querySelector(".patientsErr");
+
+    let errors = [];
+
+    if (name == '') {
+
+        errors.push("Name");
+
+    } else if (nameError.classList.contains("beDisplayed") && name !== '') {
+
+        errors.pop("Name");
+        nameError.classList.remove("beDisplayed");
+    }
+
+    if (type == '') {
+
+        errors.push("Type");
+
+    } else if (typeError.classList.contains("beDisplayed") && type !== '') {
+
+        errors.pop("Type");
+        typeError.classList.remove("beDisplayed");
+    }
+
+    if (patients == '') {
+
+        errors.push("Patients1");
+
+    } else if (patientsError.classList.contains("beDisplayed") && patients !== '') {
+
+        errors.pop("Patients1");
+        patientsError.classList.remove("beDisplayed");
+
+    }
+
+    if (!isNumber(patients) && patients != '') {
+
+        errors.push("Patients2");
+
+    }
+    else if (isNumber(patients)) {
+
+        errors.pop("Patients2");
+
+    } else if (patientsError.classList.contains("beDisplayed") && patients !== '') {
+
+        errors.pop("Patients2");
+        patientsError.classList.remove("beDisplayed");
+
+    }
+
+    if (errors.length == 0) {
 
         let doctor = {
             name: name,
@@ -165,14 +216,40 @@ function createDoctor() {
             })
             .then(data => {
                 console.log(data);
+                createHome();
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-        createHome();
     } else {
-        alert('All fields must be completed!');
-        return false;
+
+        errors.forEach(err => {
+
+            if (err.includes("Name")) {
+
+                nameError.classList.add("beDisplayed");
+            }
+
+            if (err.includes("Type")) {
+
+                typeError.classList.add("beDisplayed");
+            }
+
+            if (err.includes("Patients1")) {
+
+                patientsError.classList.add("beDisplayed");
+            }
+
+            if (err.includes("Patients2")) {
+
+                patientsError.classList.add("beDisplayed")
+                patientsError.textContent = "Only numbers";
+            }
+
+        })
+
     }
 
 }
+
+
