@@ -89,17 +89,17 @@ export function createHome(alert) {
 
     if (alert === "deleted") {
         load.classList = "";
-        appendAlert("Book has been DELETED with success!", "success");
+        appendAlert("Doctor has been DELETED with success!", "success");
     }
 
     if (alert === "updated") {
         load.classList = "";
-        appendAlert("Book has been UPDATED with success!", "success");
+        appendAlert("Doctor has been UPDATED with success!", "success");
     }
 
     if (alert === "added") {
         load.classList = "";
-        appendAlert("Book has been ADDED with success!", "success");
+        appendAlert("Doctor has been ADDED with success!", "success");
     }
 
 }
